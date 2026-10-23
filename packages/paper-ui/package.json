@@ -4,7 +4,9 @@
   "private": true,
   "description": "Material-aware, accessible paper and graphite React UI primitives built alongside Tegaki",
   "type": "module",
-  "sideEffects": ["./src/paper.css"],
+  "sideEffects": [
+    "./src/paper.css"
+  ],
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/paper.css"

@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 export interface PaperCardProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
@@ -11,9 +11,7 @@ export function PaperCard({ children, interactive = false, raised = false, class
   return (
     <article
       {...props}
-      className={['pui-card', interactive && 'pui-card--interactive', raised && 'pui-card--raised', className]
-        .filter(Boolean)
-        .join(' ')}
+      className={['pui-card', interactive && 'pui-card--interactive', raised && 'pui-card--raised', className].filter(Boolean).join(' ')}
     >
       {children}
     </article>

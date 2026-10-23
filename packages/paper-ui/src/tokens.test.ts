@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { WHISPERS_PAPER_PRESET, QUIET_TOKENS } from './tokens.ts';
+import { QUIET_TOKENS, WHISPERS_PAPER_PRESET } from './tokens.ts';
 
 test('preserves owner-supplied shader settings, including zeros', () => {
   expect(WHISPERS_PAPER_PRESET.seed).toBe(893);

@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { type ButtonHTMLAttributes, forwardRef } from 'react';
 
 export interface PaperButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'ink' | 'quiet' | 'outline';
@@ -9,11 +9,6 @@ export const PaperButton = forwardRef<HTMLButtonElement, PaperButtonProps>(funct
   ref,
 ) {
   return (
-    <button
-      {...props}
-      ref={ref}
-      type={type}
-      className={['pui-button', 'pui-button--' + variant, className].filter(Boolean).join(' ')}
-    />
+    <button {...props} ref={ref} type={type} className={['pui-button', 'pui-button--' + variant, className].filter(Boolean).join(' ')} />
   );
 });

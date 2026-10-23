@@ -1,9 +1,9 @@
 'use client';
 
-import { type CSSProperties } from 'react';
-import { TegakiRenderer } from 'tegaki/react';
-import type { TegakiRendererProps } from 'tegaki/react';
+import type { CSSProperties } from 'react';
 import caveat from 'tegaki/fonts/caveat';
+import type { TegakiRendererProps } from 'tegaki/react';
+import { TegakiRenderer } from 'tegaki/react';
 
 export interface PencilTextProps {
   children: string;

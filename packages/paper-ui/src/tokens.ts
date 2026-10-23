@@ -13,7 +13,7 @@ export const WHISPERS_PAPER_PRESET = {
   angle: 80,
   seed: 893,
   roughness: 0.66,
-  roughnessSize: 0.30,
+  roughnessSize: 0.3,
   roughnessRows: 0,
   fiber: 0,
   fiberSize: 0,

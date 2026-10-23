@@ -7,8 +7,8 @@
   --paper-ui-accent: #68645d;
   --paper-ui-focus: #39352f;
   --paper-ui-radius: 3px;
-  --paper-ui-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --paper-ui-editorial: Georgia, 'Iowan Old Style', 'Noto Serif', serif;
+  --paper-ui-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --paper-ui-editorial: Georgia, "Iowan Old Style", "Noto Serif", serif;
 }
 .pui-surface {
   position: relative;
@@ -47,7 +47,7 @@
 }
 .pui-light--diffuse .pui-surface__light {
   opacity: 1;
-  background: linear-gradient(125deg, rgba(255,255,255,0.14), transparent 55%);
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.14), transparent 55%);
 }
 .pui-surface__content {
   position: relative;
@@ -60,13 +60,15 @@
   background: var(--paper-ui-card);
   border: 1px solid rgba(71, 66, 55, 0.12);
   border-radius: var(--paper-ui-radius);
-  box-shadow: 0 1px 2px rgba(33, 30, 25, .035);
+  box-shadow: 0 1px 2px rgba(33, 30, 25, 0.035);
   color: var(--paper-ui-ink);
-  transition: transform 230ms cubic-bezier(.2,.7,.2,1), box-shadow 230ms ease;
+  transition:
+    transform 230ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 230ms ease;
 }
 .pui-surface--charcoal .pui-card {
   --paper-ui-card: rgba(255, 255, 255, 0.035);
-  border-color: rgba(245, 238, 229, .14);
+  border-color: rgba(245, 238, 229, 0.14);
 }
 .pui-card--raised {
   box-shadow: 0 6px 20px rgba(29, 25, 20, 0.09);
@@ -75,17 +77,22 @@
   transform: translateY(-3px) rotate(-0.18deg);
   box-shadow: 0 9px 22px rgba(30, 27, 23, 0.09);
 }
-.pui-card--interactive:active { transform: translateY(0); }
+.pui-card--interactive:active {
+  transform: translateY(0);
+}
 .pui-button {
   cursor: pointer;
   font: inherit;
   font-size: 0.875rem;
   line-height: 1.35;
-  letter-spacing: .008em;
-  padding: .68em 1.05em;
+  letter-spacing: 0.008em;
+  padding: 0.68em 1.05em;
   border-radius: var(--paper-ui-radius);
   border: 1px solid transparent;
-  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
   background: transparent;
   color: var(--paper-ui-ink);
 }
@@ -93,17 +100,38 @@
   background: var(--paper-ui-ink);
   color: var(--paper-ui-paper);
 }
-.pui-button--quiet:hover { background: rgba(120,112,98,.105); }
-.pui-button--ink:hover { opacity: .82; }
-.pui-button--outline { border-color: var(--paper-ui-stone); }
-.pui-button--outline:hover { background: rgba(120,112,98,.08); }
-.pui-button:active { transform: translateY(1px); }
-.pui-button:disabled { opacity: 0.5; cursor: not-allowed; }
-.pui-button:focus-visible, .pui-card:focus-visible {
+.pui-button--quiet:hover {
+  background: rgba(120, 112, 98, 0.105);
+}
+.pui-button--ink:hover {
+  opacity: 0.82;
+}
+.pui-button--outline {
+  border-color: var(--paper-ui-stone);
+}
+.pui-button--outline:hover {
+  background: rgba(120, 112, 98, 0.08);
+}
+.pui-button:active {
+  transform: translateY(1px);
+}
+.pui-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pui-button:focus-visible,
+.pui-card:focus-visible {
   outline: 2px solid var(--paper-ui-focus);
   outline-offset: 3px;
 }
 @media (prefers-reduced-motion: reduce) {
-  .pui-card, .pui-button { transition: none; }
-  .pui-card--interactive:hover, .pui-card--interactive:active, .pui-button:active { transform: none; }
+  .pui-card,
+  .pui-button {
+    transition: none;
+  }
+  .pui-card--interactive:hover,
+  .pui-card--interactive:active,
+  .pui-button:active {
+    transform: none;
+  }
 }

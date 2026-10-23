@@ -1,7 +1,7 @@
 'use client';
 
-import { lazy, Suspense, useEffect, useState, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react';
-import { WHISPERS_PAPER_PRESET, type PaperTextureSettings } from './tokens.ts';
+import { type CSSProperties, type HTMLAttributes, lazy, type ReactNode, Suspense, useEffect, useState } from 'react';
+import { type PaperTextureSettings, WHISPERS_PAPER_PRESET } from './tokens.ts';
 
 /** Lazy, browser-only shader: the semantic DOM and CSS fallback render without WebGL. */
 const LazyPaperTexture = lazy(async () => {
