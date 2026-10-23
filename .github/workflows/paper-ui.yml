@@ -25,13 +25,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Install workspace dependencies
         run: bun install --frozen-lockfile
-      - name: Audit formatting changes
-        run: |
-          bunx biome check --write packages/paper-ui examples/paper-ui || true
-          echo "STUDIO_FORMAT_PATCH_BEGIN"
-          git diff -- packages/paper-ui examples/paper-ui
-          echo "STUDIO_FORMAT_PATCH_END"
-      - name: Check formatting
+      - name: Check tracked source formatting
         run: bunx biome check packages/paper-ui examples/paper-ui
       - name: Typecheck components
         run: bun --filter @in-c0/paper-ui typecheck
