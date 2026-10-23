@@ -288,7 +288,7 @@ export function StudioApp() {
           <span className="studio-status-dot" />
           Whispers material library <span className="studio-header__division">/</span> 01
         </div>
-        <a className="studio-header__source" href="https://github.com/in-c0/tegaki/pull/1" target="_blank" rel="noreferrer">
+        <a className="studio-header__source" href="https://github.com/in-c0/tegaki/tree/export/paper-ui" target="_blank" rel="noreferrer">
           Source <span aria-hidden="true">↗</span>
         </a>
       </header>
