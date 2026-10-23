@@ -1,0 +1,66 @@
+* { box-sizing: border-box; }
+html { background: #f6f4ef; }
+body { margin: 0; }
+button, input { font: inherit; }
+.demo-shell { min-height: 100vh; }
+.demo-inner { max-width: 1290px; margin: auto; padding: 32px clamp(22px, 5vw, 80px) 35px; }
+.site-header, .section-heading, .footer, .artwork-caption, .setting-row, .angle-control {
+  display: flex; align-items: center; justify-content: space-between; gap: 15px;
+}
+.site-header { border-bottom: 1px solid rgba(98,91,80,.18); padding-bottom: 28px; }
+.overline, .edition, .section-heading > span, .artwork-caption small, .note-overline, .footer {
+  color: var(--paper-ui-graphite);
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+}
+.wordmark { font-family: Georgia, serif; font-size: 34px; letter-spacing: -.055em; line-height: 1.05; }
+.wordmark span { color: var(--paper-ui-stone); }
+.intro { padding: clamp(70px, 11vw, 155px) 0 clamp(55px, 8vw, 108px); max-width: 800px; }
+.intro h1 { font-family: Georgia, serif; font-weight: 400; font-size: clamp(52px, 7.8vw, 112px); line-height: 1.02; letter-spacing: -.06em; margin: 19px 0 25px; }
+.intro h1 em { font-weight: 400; }
+.intro-description { font-size: clamp(14px, 1.65vw, 17px); line-height: 1.8; max-width: 490px; color: var(--paper-ui-graphite); }
+.columns { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: clamp(30px, 4vw, 70px); }
+.section-heading { padding: 0 0 15px; border-bottom: 1px solid rgba(98,91,80,.22); margin-bottom: 22px; }
+.section-heading h2 { font: 400 21px Georgia, serif; margin: 0; }
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.artwork { overflow: hidden; }
+.artwork-image { background: rgba(248,247,242,.75); aspect-ratio: 4/5; display: grid; place-items: center; }
+.study { width: 100%; height: 100%; padding: 7% 4%; }
+.artwork-caption { padding: 14px 11px; align-items: flex-start; flex-direction: column; gap: 8px; }
+.artwork-caption > span { font-size: 12px; line-height: 1.5; }
+.artwork-caption small { font-size: 9px; }
+.settings { display: grid; gap: 22px; font-size: 13px; }
+.setting-row .pui-button { min-width: 62px; }
+.angle-control { margin-bottom: -16px; }
+.angle-control output { font-variant-numeric: tabular-nums; color: var(--paper-ui-graphite); }
+input[type=range] { width: 100%; accent-color: #615d55; cursor: pointer; }
+.choices { border: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.choices legend { margin-bottom: 12px; padding: 0; }
+.settings .pui-button { font-size: 12px; }
+.setting-note { font-size: 11px; line-height: 1.7; color: var(--paper-ui-graphite); }
+.handwriting { padding-top: clamp(68px, 10vw, 122px); }
+.note { background: rgba(251,250,245,.63); box-shadow: 0 12px 30px rgba(38,35,29,.045); }
+.note-content { padding: clamp(28px, 6vw, 70px); text-align: center; }
+.note-overline { display: block; margin-bottom: 30px; }
+.handwritten { min-height: 100px; display: grid; place-items: center; font-size: clamp(30px, 5vw, 59px); }
+.handwritten > span { max-width: 100%; }
+.note-content p { color: var(--paper-ui-graphite); line-height: 1.7; margin: 10px 0 30px; font-family: Georgia, serif; }
+.button-row { display: flex; justify-content: center; gap: 8px; }
+.footer { border-top: 1px solid rgba(98,91,80,.18); margin-top: 120px; padding-top: 25px; }
+.pui-surface--charcoal .intro-description, .pui-surface--charcoal .footer, .pui-surface--charcoal .setting-note,
+.pui-surface--charcoal .overline, .pui-surface--charcoal .edition, .pui-surface--charcoal .section-heading > span,
+.pui-surface--charcoal .artwork-caption small { color: #b5ada1; }
+.pui-surface--charcoal .artwork-image { background: #eae6dd; }
+.pui-surface--charcoal .note { background: #363431; }
+@media(max-width: 850px) {
+  .columns { grid-template-columns: 1fr; }
+  .controls { max-width: 600px; }
+  .intro { padding-top: 68px; }
+}
+@media(max-width: 480px) {
+  .demo-inner { padding-inline: 17px; }
+  .edition { display: none; }
+  .gallery { gap: 7px; }
+  .artwork-caption { padding: 10px 6px; }
+  .artwork-caption span { font-size: 10px; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
