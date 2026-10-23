@@ -1,11 +1,17 @@
 /** Owner-selected Paper Shaders URLs, recorded 2026-10-23.
  * Hex alpha channels are retained exactly, rather than converted to opaque colours.
  */
-export const MATERIAL_KINDS = ['grain-sphere', 'grain-blob', 'grain-wave', 'dithering', 'halftone'] as const;
+export const MATERIAL_KINDS = [
+  'paper-texture','grain-sphere', 'grain-blob', 'grain-wave', 'dithering', 'halftone'] as const;
 
 export type MaterialKind = (typeof MATERIAL_KINDS)[number];
 
 export const MATERIAL_PRESETS = {
+  'paper-texture': {
+    label: 'Cotton paper',
+    description: 'A tactile paper surface with fine wrinkles and directional shading.',
+    family: 'paper',
+  },
   'grain-sphere': {
     label: 'Warm sphere',
     description: 'A small pool of soft desk light.',
@@ -97,6 +103,11 @@ export type MaterialTuning = Partial<{
   noise: number;
   size: number;
   contrast: number;
+  angle: number;
+  roughness: number;
+  wrinkles: number;
+  blending: number;
+  distortion: number;
 }>;
 
 export function clampTuning(value: number, min: number, max: number): number {

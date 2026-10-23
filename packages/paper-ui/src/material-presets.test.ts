@@ -1,12 +1,13 @@
 import { expect, test } from 'bun:test';
 import { clampTuning, MATERIAL_KINDS, MATERIAL_PRESETS } from './material-presets.ts';
 
-test('all five user-selected presets are available', () => {
-  expect(MATERIAL_KINDS).toHaveLength(5);
+test('all six material presets are available', () => {
+  expect(MATERIAL_KINDS).toHaveLength(6);
   expect(Object.keys(MATERIAL_PRESETS)).toEqual([...MATERIAL_KINDS]);
 });
 
 test('alpha channels and precise source settings are preserved', () => {
+  expect(MATERIAL_PRESETS['paper-texture'].family).toBe('paper');
   expect(MATERIAL_PRESETS['grain-blob'].colors[0]).toBe('#ffb65c47');
   expect(MATERIAL_PRESETS['grain-wave'].colors[1]).toBe('#cec4b1eb');
   expect(MATERIAL_PRESETS.dithering.type).toBe('4x4');
