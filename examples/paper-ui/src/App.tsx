@@ -64,6 +64,8 @@ export function App() {
           <span className="edition">experimental no. 01</span>
         </header>
 
+        <ShaderPlayground />
+
         <section className="intro" aria-labelledby="intro-title">
           <p className="overline">THE SMALL THINGS</p>
           <h1 id="intro-title">
@@ -149,8 +151,6 @@ export function App() {
             </div>
           </aside>
         </div>
-
-        <ShaderPlayground />
 
         <section className="handwriting" aria-labelledby="handwriting-title">
           <div className="section-heading">

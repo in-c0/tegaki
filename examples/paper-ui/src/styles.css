@@ -251,3 +251,7 @@ input[type="range"] {
     gap: 12px;
   }
 }
+
+/* Studio-first: interactive materials are visible before editorial examples. */
+.demo-inner > .shader-playground { padding-top: clamp(28px, 4vw, 56px); }
+.intro { padding-top: clamp(38px, 5vw, 70px); }
