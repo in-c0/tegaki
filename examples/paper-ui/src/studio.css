@@ -949,8 +949,19 @@ textarea:focus-visible {
 }
 
 /* Prevent the horizontally scrollable mobile material rail from sizing the whole grid. */
-.studio-nav, .studio-workspace, .studio-inspector { min-width: 0; }
+.studio-nav,
+.studio-workspace,
+.studio-inspector {
+  min-width: 0;
+}
 @media (max-width: 860px) {
-  .studio-layout { grid-template-columns: minmax(0, 1fr); width: 100%; }
-  .studio-nav__items { min-width: 0; width: 100%; max-width: 100%; }
+  .studio-layout {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+  .studio-nav__items {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
 }
