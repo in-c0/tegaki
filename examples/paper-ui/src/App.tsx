@@ -1,3 +1,4 @@
+import { ShaderPlayground } from './ShaderPlayground.tsx';
 import { PaperButton, PaperCard, PaperSurface, PencilText, WHISPERS_PAPER_PRESET } from '@in-c0/paper-ui';
 import { useState } from 'react';
 
@@ -148,6 +149,8 @@ export function App() {
             </div>
           </aside>
         </div>
+
+        <ShaderPlayground />
 
         <section className="handwriting" aria-labelledby="handwriting-title">
           <div className="section-heading">
