@@ -56,8 +56,16 @@ test('mobile does not overflow horizontally and controls can be used', async ({ 
   await expect(page.getByRole('button', { name: 'Printed study' })).toBeVisible();
   await page.getByRole('button', { name: 'Printed study' }).click();
   await expect(page.getByRole('heading', { name: 'Collected impressions.' })).toBeVisible();
-  const dimensions = await page.evaluate(() => ({ content: document.documentElement.scrollWidth, width: window.innerWidth }));
-  expect(dimensions.content).toBeLessThanOrEqual(dimensions.width + 1);
+  const dimensions = await page.evaluate(() => ({
+    content: document.documentElement.scrollWidth,
+    width: window.innerWidth,
+    overflowingElements: Array.from(document.querySelectorAll('*'))
+      .map((element) => ({ el: element, right: element.getBoundingClientRect().right }))
+      .filter(({ right }) => right > window.innerWidth + 1)
+      .slice(0, 12)
+      .map(({ el, right }) => ({ tag: el.tagName, className: el.getAttribute('class'), right: Math.round(right) })),
+  }));
+  expect(dimensions.content, JSON.stringify(dimensions.overflowingElements)).toBeLessThanOrEqual(dimensions.width + 1);
 });
 
 test('the reduced-motion preference disables ambient shader controls', async ({ page }) => {
@@ -73,7 +81,7 @@ test('the halftone image picker uses a local browser blob without server upload'
     mimeType: 'image/svg+xml',
     buffer: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="30"/></svg>'),
   });
-  await expect(page.getByRole('status')).toContainText('Nothing uploaded');
+  await expect(page.locator('.studio-live-status')).toContainText('Nothing uploaded');
 });
 
 test.afterEach(async ({ page }, testInfo) => {
