@@ -1,13 +1,7 @@
 /** Owner-selected Paper Shaders URLs, recorded 2026-10-23.
  * Hex alpha channels are retained exactly, rather than converted to opaque colours.
  */
-export const MATERIAL_KINDS = [
-  'grain-sphere',
-  'grain-blob',
-  'grain-wave',
-  'dithering',
-  'halftone',
-] as const;
+export const MATERIAL_KINDS = ['grain-sphere', 'grain-blob', 'grain-wave', 'dithering', 'halftone'] as const;
 
 export type MaterialKind = (typeof MATERIAL_KINDS)[number];
 

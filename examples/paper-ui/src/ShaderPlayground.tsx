@@ -1,4 +1,4 @@
-import { MaterialEffect, MATERIAL_KINDS, MATERIAL_PRESETS, PaperButton, type MaterialKind, type MaterialTuning } from '@in-c0/paper-ui';
+import { MATERIAL_KINDS, MATERIAL_PRESETS, MaterialEffect, type MaterialKind, type MaterialTuning, PaperButton } from '@in-c0/paper-ui';
 import { useEffect, useState } from 'react';
 import './shader-lab.css';
 
@@ -132,7 +132,11 @@ export function ShaderPlayground() {
                 key={item}
                 className={`lab-preset ${kind === item ? 'lab-preset--selected' : ''}`}
                 aria-pressed={kind === item}
-                onClick={() => { setKind(item); setTuning({}); setStatus(''); }}
+                onClick={() => {
+                  setKind(item);
+                  setTuning({});
+                  setStatus('');
+                }}
               >
                 {MATERIAL_PRESETS[item].label}
               </button>
@@ -160,7 +164,9 @@ export function ShaderPlayground() {
         <aside className="lab-controls" aria-label="Material parameters">
           <div className="lab-control-header">
             <span>Adjust</span>
-            <PaperButton variant="quiet" onClick={reset}>Reset</PaperButton>
+            <PaperButton variant="quiet" onClick={reset}>
+              Reset
+            </PaperButton>
           </div>
           {controls[kind].map((control) => {
             const value = tuning[control.key] ?? baseValue(kind, control.key);
@@ -200,11 +206,19 @@ export function ShaderPlayground() {
             </PaperButton>
           )}
           <div className="lab-actions">
-            <PaperButton variant="ink" onClick={() => copy(snippet(kind, tuning, paused), 'React example copied.')}>Copy React code</PaperButton>
-            <PaperButton variant="outline" onClick={() => copy(window.location.href, 'Preset link copied.')}>Copy link</PaperButton>
+            <PaperButton variant="ink" onClick={() => copy(snippet(kind, tuning, paused), 'React example copied.')}>
+              Copy React code
+            </PaperButton>
+            <PaperButton variant="outline" onClick={() => copy(window.location.href, 'Preset link copied.')}>
+              Copy link
+            </PaperButton>
           </div>
-          <p className="lab-feedback" role="status">{status}</p>
-          <p className="lab-footnote">Each preset retains the original Paper Shaders colours and default parameters. Sliders only override the values shown here.</p>
+          <p className="lab-feedback" role="status">
+            {status}
+          </p>
+          <p className="lab-footnote">
+            Each preset retains the original Paper Shaders colours and default parameters. Sliders only override the values shown here.
+          </p>
         </aside>
       </div>
     </section>

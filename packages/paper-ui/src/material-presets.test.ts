@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { MATERIAL_KINDS, MATERIAL_PRESETS, clampTuning } from './material-presets.ts';
+import { clampTuning, MATERIAL_KINDS, MATERIAL_PRESETS } from './material-presets.ts';
 
 test('all five user-selected presets are available', () => {
   expect(MATERIAL_KINDS).toHaveLength(5);

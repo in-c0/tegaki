@@ -1,6 +1,6 @@
-import { ShaderPlayground } from './ShaderPlayground.tsx';
 import { PaperButton, PaperCard, PaperSurface, PencilText, WHISPERS_PAPER_PRESET } from '@in-c0/paper-ui';
 import { useState } from 'react';
+import { ShaderPlayground } from './ShaderPlayground.tsx';
 
 type StudyKind = 'branch' | 'window' | 'cup';
 
