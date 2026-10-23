@@ -8,11 +8,13 @@ on:
       - 'packages/paper-ui/**'
       - 'examples/paper-ui/**'
       - '.github/workflows/paper-ui.yml'
+      - 'bun.lock'
   pull_request:
     paths:
       - 'packages/paper-ui/**'
       - 'examples/paper-ui/**'
       - '.github/workflows/paper-ui.yml'
+      - 'bun.lock'
 
 jobs:
   validate:
@@ -23,6 +25,11 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Install workspace dependencies
         run: bun install
+      - name: Print lockfile changes for review
+        run: |
+          echo "LOCK_PATCH_BEGIN"
+          git diff -- bun.lock
+          echo "LOCK_PATCH_END"
       - name: Typecheck components
         run: bun --filter @in-c0/paper-ui typecheck
       - name: Unit tests
