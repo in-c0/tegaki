@@ -21,15 +21,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
       - name: Install workspace dependencies
-        run: bun install
-      - name: Print lockfile changes for review
+        run: bun install --frozen-lockfile
+      - name: Format components and record patch for review
         run: |
-          echo "LOCK_PATCH_BEGIN"
-          git diff -- bun.lock
-          echo "LOCK_PATCH_END"
+          bunx biome check --write packages/paper-ui examples/paper-ui || true
+          echo "FORMAT_PATCH_BEGIN"
+          git diff -- packages/paper-ui examples/paper-ui
+          echo "FORMAT_PATCH_END"
       - name: Typecheck components
         run: bun --filter @in-c0/paper-ui typecheck
       - name: Unit tests
