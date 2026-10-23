@@ -42,13 +42,15 @@ export function MaterialEffect({ kind, tuning, image, paused = false, className 
       style={style}
       data-material-kind={kind}
     >
-      {enabled && (
+      {enabled ? (
         <div className="pui-material-effect__shader" aria-hidden="true">
           <Suspense fallback={null}>
             <MaterialShader kind={kind} tuning={tuning} image={image} paused={paused} />
           </Suspense>
         </div>
-      )}
+      ) : kind === 'halftone' && image ? (
+        <img className="pui-material-effect__fallback-image" src={image} alt="" aria-hidden="true" />
+      ) : null}
       <div className="pui-material-effect__content">{children}</div>
     </div>
   );
