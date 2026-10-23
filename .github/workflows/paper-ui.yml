@@ -25,17 +25,36 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - name: Install workspace dependencies
         run: bun install --frozen-lockfile
-      - name: Format components and record patch for review
-        run: |
-          bunx biome check --write packages/paper-ui examples/paper-ui || true
-          echo "FORMAT_PATCH_BEGIN"
-          git diff -- packages/paper-ui examples/paper-ui
-          echo "FORMAT_PATCH_END"
+      - name: Check formatting (must pass, no silent autofix)
+        run: bunx biome check packages/paper-ui examples/paper-ui
       - name: Typecheck components
         run: bun --filter @in-c0/paper-ui typecheck
       - name: Unit tests
         run: bun --filter @in-c0/paper-ui test
       - name: Typecheck demo
         run: bun --filter @in-c0/example-paper-ui typecheck
-      - name: Build interactive demo
+      - name: Build interactive studio
         run: bun --filter @in-c0/example-paper-ui build
+
+  browser:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - name: Install workspace dependencies
+        run: bun install --frozen-lockfile
+      - name: Install Chromium browser
+        run: bunx playwright install --with-deps chromium
+      - name: Interactions, mobile layout and runtime assertions
+        run: bunx playwright test --config examples/paper-ui/playwright.config.ts
+      - name: Save screenshots and traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-ui-browser-results
+          path: |
+            examples/paper-ui/test-results/
+            examples/paper-ui/playwright-report/
+          retention-days: 7
