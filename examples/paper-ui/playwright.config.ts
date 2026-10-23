@@ -10,10 +10,12 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-  projects: [{
-    name: 'chromium',
-    use: { ...devices['Desktop Chrome'], launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader'] } },
-  }],
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'], launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader'] } },
+    },
+  ],
   webServer: {
     command: 'bun --filter @in-c0/example-paper-ui dev -- --host 127.0.0.1 --port 4173',
     url: 'http://127.0.0.1:4173',

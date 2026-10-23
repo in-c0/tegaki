@@ -2,15 +2,15 @@ import {
   MATERIAL_KINDS,
   MATERIAL_PRESETS,
   MaterialEffect,
+  type MaterialKind,
+  type MaterialTuning,
   PaperButton,
   PaperCard,
   PencilText,
   WHISPERS_PAPER_PRESET,
-  type MaterialKind,
-  type MaterialTuning,
 } from '@in-c0/paper-ui';
-import koreanFont from 'tegaki/fonts/nanum-pen-script';
 import { useEffect, useState } from 'react';
+import koreanFont from 'tegaki/fonts/nanum-pen-script';
 import './studio.css';
 
 type Mode = 'material' | 'handwriting';
@@ -110,17 +110,80 @@ function sourceSnippet(kind: MaterialKind, tuning: MaterialTuning, image: string
 }
 
 function Icon({ name }: { name: 'paper' | 'sun' | 'wave' | 'print' | 'pen' | 'copy' | 'check' | 'pause' | 'play' | 'reset' }) {
-  const common = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.55, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true as const };
-  if (name === 'paper') return <svg {...common}><path d="M6 3.5h9l3 3V21H6z"/><path d="M15 3.5V7h3"/><path d="M9 12h6M9 16h5"/></svg>;
-  if (name === 'sun') return <svg {...common}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2"/></svg>;
-  if (name === 'wave') return <svg {...common}><path d="M2 12c3-6 7-6 10 0s7 6 10 0"/></svg>;
-  if (name === 'print') return <svg {...common}><path d="M5 5h14v14H5zM9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01" strokeWidth="2.5"/></svg>;
-  if (name === 'pen') return <svg {...common}><path d="m4 20 5-.9L20 8a2 2 0 0 0-4-4L5 15zM13 7l4 4"/></svg>;
-  if (name === 'copy') return <svg {...common}><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg>;
-  if (name === 'check') return <svg {...common}><path d="m5 12 4 4L19 6"/></svg>;
-  if (name === 'pause') return <svg {...common}><path d="M9 5v14M15 5v14" strokeWidth="3"/></svg>;
-  if (name === 'play') return <svg {...common}><path d="m8 5 11 7-11 7z"/></svg>;
-  return <svg {...common}><path d="M3 12a9 9 0 1 0 3-6M3 4v5h5"/></svg>;
+  const common = {
+    width: 18,
+    height: 18,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.55,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true as const,
+  };
+  if (name === 'paper')
+    return (
+      <svg {...common}>
+        <path d="M6 3.5h9l3 3V21H6z" />
+        <path d="M15 3.5V7h3" />
+        <path d="M9 12h6M9 16h5" />
+      </svg>
+    );
+  if (name === 'sun')
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2" />
+      </svg>
+    );
+  if (name === 'wave')
+    return (
+      <svg {...common}>
+        <path d="M2 12c3-6 7-6 10 0s7 6 10 0" />
+      </svg>
+    );
+  if (name === 'print')
+    return (
+      <svg {...common}>
+        <path d="M5 5h14v14H5zM9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01" strokeWidth="2.5" />
+      </svg>
+    );
+  if (name === 'pen')
+    return (
+      <svg {...common}>
+        <path d="m4 20 5-.9L20 8a2 2 0 0 0-4-4L5 15zM13 7l4 4" />
+      </svg>
+    );
+  if (name === 'copy')
+    return (
+      <svg {...common}>
+        <rect x="8" y="8" width="12" height="12" rx="1" />
+        <path d="M16 8V4H4v12h4" />
+      </svg>
+    );
+  if (name === 'check')
+    return (
+      <svg {...common}>
+        <path d="m5 12 4 4L19 6" />
+      </svg>
+    );
+  if (name === 'pause')
+    return (
+      <svg {...common}>
+        <path d="M9 5v14M15 5v14" strokeWidth="3" />
+      </svg>
+    );
+  if (name === 'play')
+    return (
+      <svg {...common}>
+        <path d="m8 5 11 7-11 7z" />
+      </svg>
+    );
+  return (
+    <svg {...common}>
+      <path d="M3 12a9 9 0 1 0 3-6M3 4v5h5" />
+    </svg>
+  );
 }
 
 function StudioSlider({ control, value, change }: { control: Param; value: number; change: (value: number) => void }) {
@@ -129,7 +192,10 @@ function StudioSlider({ control, value, change }: { control: Param; value: numbe
     <div className="studio-control">
       <div className="studio-control__heading">
         <label htmlFor={'studio-' + control.key}>{control.label}</label>
-        <output htmlFor={'studio-' + control.key}>{display(value)}{control.key === 'angle' ? '°' : ''}</output>
+        <output htmlFor={'studio-' + control.key}>
+          {display(value)}
+          {control.key === 'angle' ? '°' : ''}
+        </output>
       </div>
       <input
         id={'studio-' + control.key}
@@ -180,7 +246,9 @@ export function StudioApp() {
   }, [kind, tuning]);
 
   useEffect(() => {
-    return () => { if (imageUrl) URL.revokeObjectURL(imageUrl); };
+    return () => {
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+    };
   }, [imageUrl]);
 
   const active = labels[kind];
@@ -209,16 +277,33 @@ export function StudioApp() {
   return (
     <div className="studio-app">
       <header className="studio-header">
-        <div className="studio-brand"><span className="studio-brand__mark">w.</span><div><strong>paper / graphite</strong><span>an interactive material study</span></div></div>
-        <div className="studio-header__meta"><span className="studio-status-dot"/>Whispers material library <span className="studio-header__division">/</span> 01</div>
-        <a className="studio-header__source" href="https://github.com/in-c0/tegaki/pull/1" target="_blank" rel="noreferrer">Source <span aria-hidden="true">↗</span></a>
+        <div className="studio-brand">
+          <span className="studio-brand__mark">w.</span>
+          <div>
+            <strong>paper / graphite</strong>
+            <span>an interactive material study</span>
+          </div>
+        </div>
+        <div className="studio-header__meta">
+          <span className="studio-status-dot" />
+          Whispers material library <span className="studio-header__division">/</span> 01
+        </div>
+        <a className="studio-header__source" href="https://github.com/in-c0/tegaki/pull/1" target="_blank" rel="noreferrer">
+          Source <span aria-hidden="true">↗</span>
+        </a>
       </header>
 
       <div className="studio-layout">
         <nav className="studio-nav" aria-label="Components and materials">
           <div className="studio-nav__eyebrow">THE COLLECTION</div>
-          <p className="studio-nav__intro">Surfaces made<br/>to feel a little closer.</p>
-          <div className="studio-nav__group-title">MATERIALS <span>06</span></div>
+          <p className="studio-nav__intro">
+            Surfaces made
+            <br />
+            to feel a little closer.
+          </p>
+          <div className="studio-nav__group-title">
+            MATERIALS <span>06</span>
+          </div>
           <div className="studio-nav__items">
             {MATERIAL_KINDS.map((item) => (
               <button
@@ -229,24 +314,62 @@ export function StudioApp() {
                 onClick={() => changeKind(item)}
               >
                 <span className={'studio-nav__glyph studio-nav__glyph--' + item}>
-                  <Icon name={item === 'paper-texture' ? 'paper' : item === 'halftone' || item === 'dithering' ? 'print' : item === 'grain-wave' ? 'wave' : 'sun'}/>
+                  <Icon
+                    name={
+                      item === 'paper-texture'
+                        ? 'paper'
+                        : item === 'halftone' || item === 'dithering'
+                          ? 'print'
+                          : item === 'grain-wave'
+                            ? 'wave'
+                            : 'sun'
+                    }
+                  />
                 </span>
                 <span>{MATERIAL_PRESETS[item].label}</span>
-                <span className="studio-nav__arrow" aria-hidden="true">↗</span>
+                <span className="studio-nav__arrow" aria-hidden="true">
+                  ↗
+                </span>
               </button>
             ))}
           </div>
-          <div className="studio-nav__group-title studio-nav__group-title--second">LETTERING <span>01</span></div>
-          <button type="button" className={'studio-nav__item' + (isWriting ? ' is-active' : '')} aria-current={isWriting ? 'true' : undefined} onClick={() => { setMode('handwriting'); setStatus(''); }}>
-            <span className="studio-nav__glyph"><Icon name="pen"/></span><span>Written in graphite</span><span className="studio-nav__arrow" aria-hidden="true">↗</span>
+          <div className="studio-nav__group-title studio-nav__group-title--second">
+            LETTERING <span>01</span>
+          </div>
+          <button
+            type="button"
+            className={'studio-nav__item' + (isWriting ? ' is-active' : '')}
+            aria-current={isWriting ? 'true' : undefined}
+            onClick={() => {
+              setMode('handwriting');
+              setStatus('');
+            }}
+          >
+            <span className="studio-nav__glyph">
+              <Icon name="pen" />
+            </span>
+            <span>Written in graphite</span>
+            <span className="studio-nav__arrow" aria-hidden="true">
+              ↗
+            </span>
           </button>
-          <div className="studio-nav__footer"><span className="studio-status-dot"/> experimental / open source</div>
+          <div className="studio-nav__footer">
+            <span className="studio-status-dot" /> experimental / open source
+          </div>
         </nav>
 
         <main className="studio-workspace" id="main">
           <div className="studio-workspace__top">
-            <div><div className="studio-eyebrow">STUDY <span className="studio-workspace__slash">/</span> {isWriting ? '07 — LETTERING' : active.category}</div><h1>{isWriting ? 'Words, made slowly.' : active.title}</h1><p>{isWriting ? 'A handwritten note, traced one stroke at a time.' : active.subtitle}</p></div>
-            <div className="studio-workspace__flag">LIVE PREVIEW <span className="studio-status-dot"/></div>
+            <div>
+              <div className="studio-eyebrow">
+                STUDY <span className="studio-workspace__slash">/</span> {isWriting ? '07 — LETTERING' : active.category}
+              </div>
+              <h1>{isWriting ? 'Words, made slowly.' : active.title}</h1>
+              <p>{isWriting ? 'A handwritten note, traced one stroke at a time.' : active.subtitle}</p>
+            </div>
+            <div className="studio-workspace__flag">
+              LIVE PREVIEW <span className="studio-status-dot" />
+            </div>
           </div>
           <div className="studio-preview-wrap">
             <div className="studio-preview">
@@ -264,47 +387,118 @@ export function StudioApp() {
                     <div className="studio-preview__center">
                       {isWriting ? (
                         <div key={writingKey} className="studio-preview__handwriting">
-                          <PencilText font={koreanFont} size="clamp(30px, 5vw, 60px)" color={ink === 'dark' ? '#282723' : '#65615a'}>{writing}</PencilText>
+                          <PencilText font={koreanFont} size="clamp(30px, 5vw, 60px)" color={ink === 'dark' ? '#282723' : '#65615a'}>
+                            {writing}
+                          </PencilText>
                         </div>
                       ) : (
-                        <div className="studio-preview__sample" lang="en">{sample || ' '}</div>
+                        <div className="studio-preview__sample" lang="en">
+                          {sample || ' '}
+                        </div>
                       )}
                       <span className="studio-preview__quiet-mark">a little, over time.</span>
                     </div>
-                    <span className="studio-preview__page">01 <span aria-hidden="true">—</span> 06</span>
+                    <span className="studio-preview__page">
+                      01 <span aria-hidden="true">—</span> 06
+                    </span>
                   </div>
                 )}
               </MaterialEffect>
             </div>
             <div className="studio-preview__caption">
               <span>{isWriting ? 'Tegaki / letterforms' : MATERIAL_PRESETS[kind].label + ' / material'}</span>
-              <span>{chosenKind === 'halftone' ? 'SOURCE IMAGE / LIVE FILTER' : chosenKind === 'paper-texture' ? 'SURFACE / LIVE' : paused ? 'MOTION PAUSED' : 'ANIMATED / LIVE'}</span>
+              <span>
+                {chosenKind === 'halftone'
+                  ? 'SOURCE IMAGE / LIVE FILTER'
+                  : chosenKind === 'paper-texture'
+                    ? 'SURFACE / LIVE'
+                    : paused
+                      ? 'MOTION PAUSED'
+                      : 'ANIMATED / LIVE'}
+              </span>
             </div>
           </div>
           <div className="studio-bottom">
             <PaperCard className="studio-bottom__card">
               <div className="studio-bottom__label">COMPONENT 01</div>
-              <div className="studio-bottom__card-main"><span className="studio-bottom__script">A small beginning.</span><PaperButton variant={saved ? 'ink' : 'outline'} onClick={() => setSaved((current) => !current)} aria-pressed={saved}><Icon name={saved ? 'check' : 'paper'}/>{saved ? 'Saved' : 'Save note'}</PaperButton></div>
+              <div className="studio-bottom__card-main">
+                <span className="studio-bottom__script">A small beginning.</span>
+                <PaperButton variant={saved ? 'ink' : 'outline'} onClick={() => setSaved((current) => !current)} aria-pressed={saved}>
+                  <Icon name={saved ? 'check' : 'paper'} />
+                  {saved ? 'Saved' : 'Save note'}
+                </PaperButton>
+              </div>
             </PaperCard>
-            <p className="studio-bottom__description">A work in progress, with actual materials.<br/>Accessible DOM controls; a single shader canvas.</p>
+            <p className="studio-bottom__description">
+              A work in progress, with actual materials.
+              <br />
+              Accessible DOM controls; a single shader canvas.
+            </p>
           </div>
         </main>
 
         <aside className="studio-inspector" aria-label="Material controls">
-          <div className="studio-inspector__top"><div><span>INSPECTOR</span><h2>{isWriting ? 'Lettering' : 'Material'}</h2></div><button type="button" className="studio-icon-button" title="Reset parameters" aria-label="Reset parameters" onClick={() => { setTuning({}); setPlaying(true); setInk('soft'); setStatus('Settings restored.'); }}><Icon name="reset"/></button></div>
+          <div className="studio-inspector__top">
+            <div>
+              <span>INSPECTOR</span>
+              <h2>{isWriting ? 'Lettering' : 'Material'}</h2>
+            </div>
+            <button
+              type="button"
+              className="studio-icon-button"
+              title="Reset parameters"
+              aria-label="Reset parameters"
+              onClick={() => {
+                setTuning({});
+                setPlaying(true);
+                setInk('soft');
+                setStatus('Settings restored.');
+              }}
+            >
+              <Icon name="reset" />
+            </button>
+          </div>
           <div className="studio-inspector__body">
             <div className="studio-inspector__section">
-              <div className="studio-inspector__section-title"><span>01</span> {isWriting ? 'THE WORDS' : 'SURFACE SETTINGS'}</div>
+              <div className="studio-inspector__section-title">
+                <span>01</span> {isWriting ? 'THE WORDS' : 'SURFACE SETTINGS'}
+              </div>
               {isWriting ? (
                 <>
-                  <label className="studio-field-label" htmlFor="writing-sample">Handwritten text</label>
-                  <textarea className="studio-textarea" id="writing-sample" value={writing} maxLength={70} onChange={(event) => setWriting(event.target.value)} rows={2}/>
+                  <label className="studio-field-label" htmlFor="writing-sample">
+                    Handwritten text
+                  </label>
+                  <textarea
+                    className="studio-textarea"
+                    id="writing-sample"
+                    value={writing}
+                    maxLength={70}
+                    onChange={(event) => setWriting(event.target.value)}
+                    rows={2}
+                  />
                   <div className="studio-inspector__hint">Uses Nanum Pen Script. Works with Korean and Latin.</div>
-                  <button className="studio-secondary-action" type="button" onClick={() => setWritingKey((key) => key + 1)}><Icon name="play"/>Write it again</button>
+                  <button className="studio-secondary-action" type="button" onClick={() => setWritingKey((key) => key + 1)}>
+                    <Icon name="play" />
+                    Write it again
+                  </button>
                   <div className="studio-field-label">Graphite tone</div>
                   <div className="studio-segment" role="group" aria-label="Graphite tone">
-                    <button type="button" className={ink === 'soft' ? 'is-active' : ''} aria-pressed={ink === 'soft'} onClick={() => setInk('soft')}>Soft pencil</button>
-                    <button type="button" className={ink === 'dark' ? 'is-active' : ''} aria-pressed={ink === 'dark'} onClick={() => setInk('dark')}>Dark pencil</button>
+                    <button
+                      type="button"
+                      className={ink === 'soft' ? 'is-active' : ''}
+                      aria-pressed={ink === 'soft'}
+                      onClick={() => setInk('soft')}
+                    >
+                      Soft pencil
+                    </button>
+                    <button
+                      type="button"
+                      className={ink === 'dark' ? 'is-active' : ''}
+                      aria-pressed={ink === 'dark'}
+                      onClick={() => setInk('dark')}
+                    >
+                      Dark pencil
+                    </button>
                   </div>
                 </>
               ) : (
@@ -317,25 +511,98 @@ export function StudioApp() {
                       change={(value) => setTuning((current) => ({ ...current, [control.key]: value }))}
                     />
                   ))}
-                  {kind === 'halftone' && <div className="studio-upload"><label htmlFor="halftone-upload">Use your own drawing <span>↗</span></label><input id="halftone-upload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onChange={(event) => { const file = event.target.files?.[0]; if (!file) return; if (!file.type.startsWith('image/') || file.size > 8_000_000) { setStatus('Choose an image smaller than 8 MB.'); return; } setImageUrl(URL.createObjectURL(file)); setStatus('Image preview updated locally. Nothing uploaded.'); }}/><p>Images stay in this browser; nothing is uploaded.</p></div>}
+                  {kind === 'halftone' && (
+                    <div className="studio-upload">
+                      <label htmlFor="halftone-upload">
+                        Use your own drawing <span>↗</span>
+                      </label>
+                      <input
+                        id="halftone-upload"
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          if (!file) return;
+                          if (!file.type.startsWith('image/') || file.size > 8_000_000) {
+                            setStatus('Choose an image smaller than 8 MB.');
+                            return;
+                          }
+                          setImageUrl(URL.createObjectURL(file));
+                          setStatus('Image preview updated locally. Nothing uploaded.');
+                        }}
+                      />
+                      <p>Images stay in this browser; nothing is uploaded.</p>
+                    </div>
+                  )}
                 </>
               )}
             </div>
             <div className="studio-inspector__section studio-inspector__section--after">
-              <div className="studio-inspector__section-title"><span>02</span> PREVIEW</div>
-              {!isWriting && kind !== 'halftone' && <><label className="studio-field-label" htmlFor="sample-text">Sample text</label><input className="studio-text-input" id="sample-text" value={sample} maxLength={60} onChange={(event) => setSample(event.target.value)}/></>}
-              {!isWriting && kind !== 'paper-texture' && kind !== 'halftone' && <button type="button" className="studio-secondary-action" aria-pressed={paused} onClick={() => setPlaying((value) => !value)} disabled={reducedMotion}><Icon name={paused ? 'play' : 'pause'}/>{reducedMotion ? 'Reduced motion enabled' : paused ? 'Resume animation' : 'Pause animation'}</button>}
-              <div className="studio-inspector__hint">The texture and lettering stay separate from the real, keyboard-accessible controls.</div>
+              <div className="studio-inspector__section-title">
+                <span>02</span> PREVIEW
+              </div>
+              {!isWriting && kind !== 'halftone' && (
+                <>
+                  <label className="studio-field-label" htmlFor="sample-text">
+                    Sample text
+                  </label>
+                  <input
+                    className="studio-text-input"
+                    id="sample-text"
+                    value={sample}
+                    maxLength={60}
+                    onChange={(event) => setSample(event.target.value)}
+                  />
+                </>
+              )}
+              {!isWriting && kind !== 'paper-texture' && kind !== 'halftone' && (
+                <button
+                  type="button"
+                  className="studio-secondary-action"
+                  aria-pressed={paused}
+                  onClick={() => setPlaying((value) => !value)}
+                  disabled={reducedMotion}
+                >
+                  <Icon name={paused ? 'play' : 'pause'} />
+                  {reducedMotion ? 'Reduced motion enabled' : paused ? 'Resume animation' : 'Pause animation'}
+                </button>
+              )}
+              <div className="studio-inspector__hint">
+                The texture and lettering stay separate from the real, keyboard-accessible controls.
+              </div>
             </div>
           </div>
           <div className="studio-inspector__footer">
-            <div className="studio-inspector__section-title"><span>03</span> TAKE IT WITH YOU</div>
-            <div className="studio-inspector__actions">
-              <button type="button" className="studio-action--primary" onClick={() => copy(isWriting ? "<PencilText>조금씩, 꾸준히.</PencilText>" : sourceSnippet(kind, tuning, '/my-artwork.png'), 'React component copied.')}><Icon name="copy"/> Copy component</button>
-              <button type="button" className="studio-action--secondary" onClick={() => copy(window.location.href, 'Shareable link copied.')}><Icon name="copy"/> Copy link</button>
+            <div className="studio-inspector__section-title">
+              <span>03</span> TAKE IT WITH YOU
             </div>
-            <p className="studio-live-status" role="status">{status}</p>
-            <p className="studio-inspector__fineprint">Material studies using Paper Shaders and Tegaki. Experimental; not production-certified.</p>
+            <div className="studio-inspector__actions">
+              <button
+                type="button"
+                className="studio-action--primary"
+                onClick={() =>
+                  copy(
+                    isWriting ? '<PencilText>조금씩, 꾸준히.</PencilText>' : sourceSnippet(kind, tuning, '/my-artwork.png'),
+                    'React component copied.',
+                  )
+                }
+              >
+                <Icon name="copy" /> Copy component
+              </button>
+              <button
+                type="button"
+                className="studio-action--secondary"
+                onClick={() => copy(window.location.href, 'Shareable link copied.')}
+              >
+                <Icon name="copy" /> Copy link
+              </button>
+            </div>
+            <p className="studio-live-status" role="status">
+              {status}
+            </p>
+            <p className="studio-inspector__fineprint">
+              Material studies using Paper Shaders and Tegaki. Experimental; not production-certified.
+            </p>
           </div>
         </aside>
       </div>
