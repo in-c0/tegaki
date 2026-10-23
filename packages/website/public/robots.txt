@@ -1,8 +1,0 @@
-# Tegaki, a handwriting animation library.
-User-agent: *
-Content-Signal: search=yes, ai-input=yes, ai-train=yes
-Allow: /
-
-Sitemap: https://tegaki.ink/sitemap.xml
-
-# For AI agents and LLMs: https://tegaki.ink/llms.txt

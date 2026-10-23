@@ -1,94 +1,49 @@
-name: CI
+name: Independent Paper UI CI
 
 on:
   push:
-    branches: [main]
+    branches: [export/paper-ui, main]
   pull_request:
-    branches: [main]
-  workflow_dispatch:
 
 jobs:
-  format:
+  build-and-unit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - run: bun i --frozen-lockfile
-      - run: bunx biome check
+      - name: Install
+        run: bun install
+      - name: Build publishable React package and studio
+        run: bun run build
+      - name: Unit tests
+        run: bun run test
+      - name: Npm package dry run
+        run: cd packages/paper-ui && npm pack --dry-run
+      - name: Check whether emitted declarations and CSS exist
+        run: |
+          test -f packages/paper-ui/dist/index.d.ts
+          test -f packages/paper-ui/dist/index.js
+          test -f packages/paper-ui/dist/paper.css
 
-  checks:
-    needs: format
+  browser:
+    needs: build-and-unit
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - run: bun i --frozen-lockfile
-      - run: bun check
-      # Build the renderer's dist/ first: the next example resolves `tegaki`
-      # to its published entry points (./dist/*), so typecheck needs them.
-      - run: bun --filter tegaki build
-      - run: bun typecheck
-      - run: bun run test
-
-  e2e:
-    needs: checks
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.63.0-noble
-    # The image runs as root with $HOME owned by pwuser, and Firefox refuses to
-    # launch as root in another user's home (Playwright's documented workaround).
-    env:
-      HOME: /root
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v6
-      - run: apt-get update && apt-get install -y unzip curl
-      - uses: oven-sh/setup-bun@v2
-      - run: bun i --frozen-lockfile
-      - name: Run Playwright
-        working-directory: packages/website
-        run: bun test:e2e
-      - name: Upload Playwright report
-        if: failure()
-        uses: actions/upload-artifact@v7
+      - run: bun install
+      - run: bun --filter @in-c0/paper-ui build
+      - run: bunx playwright install --with-deps chromium
+      - name: Browser UI and mobile interaction tests
+        run: bun run test:browser
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: packages/website/playwright-report/
-          retention-days: 14
-
-  examples:
-    needs: checks
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.63.0-noble
-    # The image runs as root with $HOME owned by pwuser, and Firefox refuses to
-    # launch as root in another user's home (Playwright's documented workaround).
-    env:
-      HOME: /root
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v6
-      - run: apt-get update && apt-get install -y unzip curl
-      - uses: oven-sh/setup-bun@v2
-      - run: bun i --frozen-lockfile
-      # Build the renderer's dist/ (next/nuxt/remotion resolve to it) and the
-      # web examples, then smoke-test that each actually renders handwriting.
-      - name: Build examples
-        run: bun run build:examples
-      - name: Smoke-test web examples (vite, next, nuxt, svelte, vue, solid, astro, vanilla)
-        run: bun --filter @tegaki/example-e2e test
-      - name: Render-test Remotion still
-        run: bun --filter @tegaki/example-e2e remotion-still
-      - name: Upload Playwright report
-        if: failure()
-        uses: actions/upload-artifact@v7
-        with:
-          name: playwright-report-examples
-          path: e2e/examples/playwright-report/
-          retention-days: 14
+          name: paper-ui-qa
+          path: |
+            apps/studio/test-results/
+            apps/studio/playwright-report/
+          retention-days: 7

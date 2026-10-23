@@ -1,9 +1,0 @@
-{
-  "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "customConditions": ["tegaki@dev"]
-  },
-  "include": [".astro/types.d.ts", "src", "astro.config.ts"],
-  "exclude": ["dist"]
-}

@@ -1,57 +1,23 @@
 {
-  "name": "@tegaki/root",
-  "version": "1.1.0",
+  "name": "paper-ui-workspace",
   "private": true,
+  "version": "0.1.0-alpha.1",
   "type": "module",
   "workspaces": [
     "packages/*",
-    "examples/*",
-    "e2e/*"
+    "apps/*"
   ],
   "scripts": {
-    "start": "bun --filter tegaki-generator start",
-    "dev": "bun --filter @tegaki/website dev",
-    "test": "bun --conditions=tegaki@dev test",
-    "build:website": "bun --filter @tegaki/website build",
-    "build:examples": "bun --filter tegaki build && bun --filter @tegaki/example-vite build && bun --filter @tegaki/example-next build && bun --filter @tegaki/example-nuxt build && bun --filter @tegaki/example-svelte build && bun --filter @tegaki/example-vue build && bun --filter @tegaki/example-solid build && bun --filter @tegaki/example-astro build && bun --filter @tegaki/example-vanilla build",
-    "test:examples": "bun run build:examples && bun --filter @tegaki/example-e2e test && bun --filter @tegaki/example-e2e remotion-still",
-    "compile": "bun --filter tegaki-generator compile --external ink",
-    "typecheck": "tsgo && bun --bun --filter '@tegaki/*' typecheck",
-    "lint": "biome lint",
-    "format": "biome format",
-    "check": "biome check",
-    "fix": "biome check --write --unsafe",
-    "checks": "bun check && bun typecheck && bun run test",
-    "prepare": "husky",
-    "tegami": "bun scripts/tegami.mts"
+    "dev": "bun --filter @in-c0/paper-ui-studio dev",
+    "build": "bun --filter @in-c0/paper-ui build && bun --filter @in-c0/paper-ui-studio build",
+    "typecheck": "bun --filter @in-c0/paper-ui build && bun --filter @in-c0/paper-ui-studio typecheck",
+    "test": "bun --filter @in-c0/paper-ui test",
+    "test:browser": "bunx playwright test --config apps/studio/playwright.config.ts",
+    "check": "bun run build && bun run test"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
     "@playwright/test": "^1.63.0",
-    "@remotion/fonts": "^4.0.529",
     "@types/bun": "^1.4.2",
-    "@types/opentype.js": "^1.3.10",
-    "@typescript/native-preview": "^7.0.0-dev.20260707.2",
-    "husky": "^9.1.7",
-    "lint-staged": "^17.5.1",
-    "opentype.js": "^2.0.0",
-    "remotion": "^4.0.529",
-    "solid-js": "^1.9.15",
-    "svelte": "^5.57.1",
-    "tegaki": "workspace:*",
-    "tegami": "^1.5.0",
-    "vue": "^3.5.43",
-    "zod": "^4.6.5"
-  },
-  "lint-staged": {
-    "*": [
-      "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
-    ]
-  },
-  "overrides": {
-    "@types/node": "26.6.3"
-  },
-  "dependencies": {
-    "harfbuzzjs": "^1.6.2"
+    "@biomejs/biome": "^2.5.14"
   }
 }

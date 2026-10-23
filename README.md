@@ -1,123 +1,96 @@
-# Tegaki
+# Paper UI
 
-**Handwriting animation for any font**
+**Material-aware, quietly interactive React components.**
 
-Tegaki (手書き) turns any font into animated handwriting.
-No manual path authoring. No native dependencies. Just pick a font.
+A small independent, experimental library for surfaces that feel like paper and handwriting that appears stroke by stroke. Built with normal accessible DOM controls, Paper Shaders for optional GPU materials, and Tegaki for handwriting.
 
-**[Website & docs](https://tegaki.ink/)** · **[Try it in the studio](https://tegaki.ink/studio/)**
+**Status:** pre-release source; not published to npm. The source is prepared for extraction to a standalone GitHub repository. The public interactive demo is an experimental preview, not production certification.
 
-[![npm](https://img.shields.io/npm/v/tegaki)](https://www.npmjs.com/package/tegaki)
-[![license](https://img.shields.io/npm/l/tegaki)](https://github.com/gkurt/tegaki/blob/main/LICENSE)
+## Components
 
-<br clear="both" />
+| Component | Purpose |
+| --- | --- |
+| `PaperSurface` | A semantic DOM container with optional paper shader, warm light treatment, and CSS fallback |
+| `MaterialEffect` | A single GPU material layer selected from six presets |
+| `PencilText` | Stroke-order animated handwriting using Tegaki |
+| `PaperCard` | Tactile-but-subtle card with reduced-motion-friendly interaction |
+| `PaperButton` | Native accessible button with ink / quiet / outline treatments |
 
-<p align="center">
-  <img src="media/hello-world.svg" alt="Written by hand. — handwriting animation" width="560" />
-</p>
+Six material modes: **Paper Texture**, **Grain Gradient Sphere**, **Blob**, **Wave**, **Dithering**, and **Halftone Dots**. Presets preserve the creator-selected source values and expose optional tuning.
 
----
-
-## Quick Start
-
-**1. Install**
+## Install after the first npm release
 
 ```bash
-npm install tegaki
+npm install @in-c0/paper-ui react
 ```
 
-**2. Use** (React example)
+> **Not yet available on npm.** The proposed `@in-c0` npm organization/scope must be owned and verified before publishing. Do not use the installation command until a release is confirmed.
+
+## Usage (React)
 
 ```tsx
-import { TegakiRenderer } from 'tegaki';
-import caveat from 'tegaki/fonts/caveat';
+import { PaperSurface, PaperCard, PaperButton, PencilText, MaterialEffect } from '@in-c0/paper-ui';
+import korean from 'tegaki/fonts/nanum-pen-script';
 
-function App() {
+function Journal() {
   return (
-    <TegakiRenderer font={caveat} style={{ fontSize: '48px' }}>
-      Hello World
-    </TegakiRenderer>
+    <PaperSurface light="desk">
+      <PaperCard>
+        <PencilText font={korean}>조금씩, 꾸준히.</PencilText>
+        <PaperButton onClick={() => alert('Saved')}>Save note</PaperButton>
+      </PaperCard>
+      <MaterialEffect kind="grain-blob" paused={false}>
+        <p>Ambient material study</p>
+      </MaterialEffect>
+    </PaperSurface>
   );
 }
 ```
 
-That's it. The text draws itself stroke by stroke with natural timing.
+**Rendering rule:** Do not mount a separate shader per thumbnail. Keep keyboard focus and interactive controls in the DOM, and use a single optional shader behind selected content.
 
-## Command Line
-
-Don't want to wire up a component? Generate an animated handwriting SVG straight from your terminal — nothing to install:
+## Run the standalone source
 
 ```bash
-npx tegaki "Tegaki is awesome"
+bun install
+bun run build
+bun run test
+bun run dev
 ```
 
-This writes a self-drawing, looping `tegaki-is-awesome.svg` — drop it into a README, a slide, or any page. Pick a font, mode, size, or color:
+Open the Vite URL to explore materials and handwriting in the same live studio. For browser quality checks:
 
 ```bash
-npx tegaki "Hello World" --font tangerine --mode once -o hello.svg
-npx tegaki "ABC" --stagger 80% --size 140 --color "#222"
-npx tegaki "مرحبا بالعالم" --font amiri --stroke-easing ease-in-out-cubic
-npx tegaki "Glow" --plugins '[["glow", {"radius": 0.12, "color": "#f0a"}], "taper"]'
+bunx playwright install chromium
+bun run test:browser
 ```
 
-`--mode` is `loop` (repeats forever, the default), `once` (draws itself a single time), or `static` (finished artwork). The CLI shapes text with harfbuzz (bundled as WASM) the way the renderer does, so ligatures, Arabic joining, Devanagari and right-to-left text come out right, and it clips strokes to the letter outlines as the studio does. Run `npx tegaki --help` for every option and `--list-fonts` for the bundled fonts. The CLI emits SVG only — for PNG, GIF, or WebM use the [interactive studio](https://tegaki.ink/studio/).
+## Packaging
 
-## Framework Support
+The package emits JS, `.d.ts` declarations, and its CSS into `packages/paper-ui/dist`. Check actual tarball contents before publishing:
 
-Tegaki works with all major frameworks:
-
-```tsx
-import { TegakiRenderer } from 'tegaki/react';   // React
-import { TegakiRenderer } from 'tegaki/svelte';  // Svelte
-import { TegakiRenderer } from 'tegaki/vue';     // Vue
-import { TegakiRenderer } from 'tegaki/solid';   // SolidJS
+```bash
+cd packages/paper-ui
+npm pack --dry-run
 ```
 
-```astro
----
-import TegakiRenderer from 'tegaki/astro';       // Astro
----
-```
+There are no automatic npm releases. Add trusted publishing, ownership verification, package installation smoke tests, and license validation before enabling a release workflow.
 
-```ts
-import { TegakiEngine } from 'tegaki/core';      // Vanilla JS
-import { registerTegakiElement } from 'tegaki/wc'; // Web Components
-```
+## Scope and limitations
 
-## Built-in Fonts
+- **React-first**, not an official shadcn/ui or Tegaki extension.
+- The paper shader is visually shaded; it does **not** perform realistic 3D lighting, tactile simulation, or paper folding physics.
+- Handwriting draws glyph strokes using Tegaki; this does **not** simulate graphite-particle deposition.
+- WebGL is optional; no-WebGL content remains readable.
+- The included demo should not be presented as fully production-hardened until actual mobile GPU, accessibility, security, and contrast audits are complete.
 
-Several handwriting fonts are bundled and ready to use:
+## Upstream projects
 
-- **Caveat** — `tegaki/fonts/caveat` _(Latin)_
-- **Italianno** — `tegaki/fonts/italianno` _(Latin)_
-- **Tangerine** — `tegaki/fonts/tangerine` _(Latin)_
-- **Parisienne** — `tegaki/fonts/parisienne` _(Latin)_
-- **Suez One** — `tegaki/fonts/suez-one` _(Hebrew + Latin)_
-- **Amiri** — `tegaki/fonts/amiri` _(Arabic + Latin)_
-- **Tillana** — `tegaki/fonts/tillana` _(Devanagari + Latin)_
-- **Klee One** — `tegaki/fonts/klee-one` _(Japanese: kana + Kyōiku grade 1–2 kanji + Latin)_
-- **Nanum Pen Script** — `tegaki/fonts/nanum-pen-script` _(Korean: Hangul syllables + jamo + Latin)_
-- **Atma** — `tegaki/fonts/atma` _(Bengali + Latin)_
-- **LXGW WenKai** — `tegaki/fonts/lxgw-wenkai` _(Simplified Chinese: the 1000 most frequent hanzi + Latin)_
-- **Hershey Script** — `tegaki/fonts/hershey-script` _(Latin, single-line: a plotter font drawn in its own pen strokes)_
-- **EMS Allure** — `tegaki/fonts/ems-allure` _(Latin, single-line: Evil Mad Scientist's stroke version of Allura)_
+- [Tegaki](https://github.com/gkurt/tegaki): animated handwriting under MIT
+- [Paper Shaders](https://github.com/paper-design/shaders): shaders under Apache-2.0
 
-For other fonts, use the [interactive studio](https://tegaki.ink/studio/) to create a custom bundle.
+See [third-party notices](./THIRD_PARTY_NOTICES.md).
 
-## Documentation
+## Licensing
 
-Visit **[tegaki.ink](https://tegaki.ink)** for full documentation:
-
-- [Getting Started](https://tegaki.ink/getting-started/)
-- [Framework Guides](https://tegaki.ink/frameworks/react/) (React, Svelte, Vue, SolidJS, Astro, Web Components, Vanilla)
-- [Generating Fonts](https://tegaki.ink/guides/generating/)
-- [API Reference](https://tegaki.ink/api/renderer/)
-
-## Integrations
-
-- [Sli.dev](https://sli.dev/) - Create presentations using markdown. [See Tegaki integration example](https://andreas-taranetz.github.io/slidev-addon-animated-text/)
-- [Remotion](https://www.remotion.dev/) - Create videos programmatically with React. [See Tegaki integration example](https://github.com/gkurt/tegaki/blob/gokhan/support-font-features/examples/remotion/src/Root.tsx)
-
-## License
-
-[MIT](LICENSE)
+Paper UI original source: **MIT**. External packages retain their independent licenses.

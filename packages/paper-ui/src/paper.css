@@ -149,7 +149,7 @@
   background: #f8e7cc;
 }
 .pui-material-effect--halftone {
-  background: #f2f1e8 url("/halftone-study.svg") center / contain no-repeat;
+  background: #f2f1e8;
 }
 .pui-material-effect__shader {
   position: absolute;

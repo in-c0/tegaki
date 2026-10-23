@@ -23,6 +23,7 @@ export interface MaterialEffectProps {
  */
 export function MaterialEffect({ kind, tuning, image, paused = false, className = '', style, children }: MaterialEffectProps) {
   const [enabled, setEnabled] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     let context: WebGLRenderingContext | WebGL2RenderingContext | null = null;
@@ -36,6 +37,15 @@ export function MaterialEffect({ kind, tuning, image, paused = false, className 
     context?.getExtension('WEBGL_lose_context')?.loseContext();
   }, []);
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handle = () => setReducedMotion(media.matches);
+    handle();
+    media.addEventListener('change', handle);
+    return () => media.removeEventListener('change', handle);
+  }, []);
+
   return (
     <div
       className={['pui-material-effect', `pui-material-effect--${kind}`, className].filter(Boolean).join(' ')}
@@ -45,7 +55,7 @@ export function MaterialEffect({ kind, tuning, image, paused = false, className 
       {enabled ? (
         <div className="pui-material-effect__shader" aria-hidden="true">
           <Suspense fallback={null}>
-            <MaterialShader kind={kind} tuning={tuning} image={image} paused={paused} />
+            <MaterialShader kind={kind} tuning={tuning} image={image} paused={paused || reducedMotion} />
           </Suspense>
         </div>
       ) : kind === 'halftone' && image ? (
