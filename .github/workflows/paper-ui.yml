@@ -58,3 +58,39 @@ jobs:
             examples/paper-ui/test-results/
             examples/paper-ui/playwright-report/
           retention-days: 7
+
+  independent-export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: export/paper-ui
+      - uses: oven-sh/setup-bun@v2
+      - name: Install standalone source
+        run: bun install
+      - name: Record independent dependency lock for review
+        run: |
+          echo 'LOCKFILE_B64_BEGIN'
+          base64 -w0 bun.lock
+          echo
+          echo 'LOCKFILE_B64_END'
+      - name: Build independent package and public studio
+        run: bun run build
+      - name: Run isolated unit tests
+        run: bun run test
+      - name: Check published tarball contents without publishing
+        run: cd packages/paper-ui && npm pack --dry-run
+      - name: Install Chromium
+        run: bunx playwright install --with-deps chromium
+      - name: Browser accessibility and mobile interactions
+        run: bun run test:browser
+      - name: Save browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-ui-standalone-checks
+          path: |
+            apps/studio/test-results/
+            apps/studio/playwright-report/
+          retention-days: 7
