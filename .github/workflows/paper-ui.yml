@@ -1,0 +1,33 @@
+name: Paper UI checks
+
+on:
+  push:
+    branches:
+      - feature/whispers-paper-ui
+    paths:
+      - 'packages/paper-ui/**'
+      - 'examples/paper-ui/**'
+      - '.github/workflows/paper-ui.yml'
+  pull_request:
+    paths:
+      - 'packages/paper-ui/**'
+      - 'examples/paper-ui/**'
+      - '.github/workflows/paper-ui.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Install workspace dependencies
+        run: bun install
+      - name: Typecheck components
+        run: bun --filter @in-c0/paper-ui typecheck
+      - name: Unit tests
+        run: bun --filter @in-c0/paper-ui test
+      - name: Typecheck demo
+        run: bun --filter @in-c0/example-paper-ui typecheck
+      - name: Build interactive demo
+        run: bun --filter @in-c0/example-paper-ui build
