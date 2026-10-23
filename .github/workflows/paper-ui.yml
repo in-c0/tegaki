@@ -94,3 +94,19 @@ jobs:
             apps/studio/test-results/
             apps/studio/playwright-report/
           retention-days: 7
+
+  source-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: export/paper-ui
+      - name: Create standalone, history-free source archive
+        run: git archive --format=zip --output paper-ui-standalone.zip HEAD
+      - name: Upload source archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-ui-standalone-source
+          path: paper-ui-standalone.zip
+          retention-days: 30
